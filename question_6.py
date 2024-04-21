@@ -1,0 +1,43 @@
+class Hall:
+    def __init__(self, rows, cols, hall_no):
+        self.rows = rows
+        self.cols = cols
+        self.hall_no = hall_no
+        self.seats = {}
+        self.show_list = []
+
+    def create_seats(self):
+        seats = [['Free' for _ in range(self.cols)] for _ in range(self.rows)]
+        return seats
+
+    def entry_show(self, show_id, movie_name, show_time):
+        show_info = (show_id, movie_name, show_time)
+        self.show_list.append(show_info)
+
+        self.seats[show_id] = self.create_seats()
+
+    def book_seats(self, show_id, seats_to_book):
+        if show_id in self.seats:
+            for seat in seats_to_book:
+                row, col = seat
+                if 1 <= row <= self.rows and 1 <= col <= self.cols:
+                    if self.seats[show_id][row - 1][col - 1] == 'Free':
+                        self.seats[show_id][row - 1][col - 1] = 'Booked'
+                        print(f"Seat {row}{chr(64 + col)} booked successfully.")
+                    
+
+    def view_available_seats(self, show_id):
+        if show_id in self.seats:   
+            print(f"available seats of show id =  {show_id}:")
+            
+            for row in range (self.rows):
+                for col in range(self.cols):
+                    if self.seats[show_id][row][col] == 'Free':
+                        print (f"Row {row + 1}, Seat {chr(65 + col)}")
+
+
+
+hall1 = Hall(10, 10, 1) 
+hall1.entry_show("S1", "Hawa", "3:00 AM")
+
+hall1.view_available_seats("S1")
